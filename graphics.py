@@ -5,4 +5,6 @@ size = width, height = (1000, 600)       # Rozmiar ekranu
 
 # Klatki wstepu do gry
 menu = pygame.transform.scale(
-    pygame.image.load("graphics/background.png"), (width, height))
+    pygame.image.load("graphics/background2.png"), (width, height))
+gamebackground = pygame.transform.scale(
+    pygame.image.load("graphics/gamebackground.png"), (width, height))
