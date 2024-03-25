@@ -200,7 +200,7 @@ while running:
         grupa_przyciskow2.draw(screen)
         screen.blit(text_back, [910, 550])
         pygame.display.update()
-    while gra == 'niravana':
+    while gra == 'nirvana':
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
