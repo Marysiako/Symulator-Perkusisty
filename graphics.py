@@ -8,3 +8,5 @@ menu = pygame.transform.scale(
     pygame.image.load("graphics/background2.png"), (width, height))
 gamebackground = pygame.transform.scale(
     pygame.image.load("graphics/gamebackground.png"), (width, height))
+howtoplay_background = pygame.transform.scale(
+    pygame.image.load("graphics/howtoplay.png"), (width, height))
