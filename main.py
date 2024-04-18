@@ -12,8 +12,7 @@ zegar = pygame.time.Clock()
 czas = 0
 clock = pygame.time.Clock()
 FPS = 30
-# Kolory
-WHITE = (255, 255, 255)
+score = 0
 
 # Teksty
 text_menu = fonts.font_big.render("Menu", False, [0, 0, 0])
