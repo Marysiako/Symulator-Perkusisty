@@ -13,7 +13,7 @@ gra = "songs"    # Zmienna do ustawiania etapu gry
 zegar = pygame.time.Clock()
 czas = 0
 clock = pygame.time.Clock()
-FPS = 30
+FPS = 10
 YLine = 235  # Linia graniczna momentu klikniecia przycisku
 points = 0  # Licznik punktów
 index_snare = 0  # Indeks w tablicy delays
@@ -21,6 +21,7 @@ index_hihat = 0
 index_kick = 0
 # Teksty
 text_menu = fonts.font_big.render("Menu", False, [0, 0, 0])
+text_points = fonts.font_med.render("Points:"+str(points), False, [0, 0, 0])
 # Inicjalizacja okna
 pygame.init()
 running = True
@@ -205,6 +206,7 @@ while running:
                     for sprite in sprites_snare:
                         if sprite.rect.colliderect(pygame.Rect(0, YLine, width, 1)):
                             points += 1
+                            text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
                             print("Points:", points)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_j:  # Sprawdzenie czy naciśnięto przycisk "a"
@@ -212,6 +214,7 @@ while running:
                     for sprite in sprites_hihat:
                         if sprite.rect.colliderect(pygame.Rect(0, YLine, width, 1)):
                             points += 1
+                            text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
                             print("Points:", points)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:  # Sprawdzenie czy naciśnięto przycisk "a"
@@ -219,6 +222,7 @@ while running:
                     for sprite in sprites_kick:
                         if sprite.rect.colliderect(pygame.Rect(0, YLine, width, 1)):
                             points += 1
+                            text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
                             print("Points:", points)
         # Wystrzelenie nowego sprita po upływie czasu z tablicy delays
         current_time = pygame.time.get_ticks()
@@ -249,8 +253,10 @@ while running:
         sprites_hihat.draw(screen)
         sprites_kick.update()
         sprites_kick.draw(screen)
+        screen.blit(graphics.drumbackground2, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
+        screen.blit(text_points, [800, 10])
         pygame.display.update()
     while gra == 'nirvana':
         for event in pygame.event.get():

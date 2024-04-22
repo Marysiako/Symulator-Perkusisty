@@ -12,3 +12,5 @@ howtoplay_background = pygame.transform.scale(
     pygame.image.load("graphics/howtoplay.png"), (width, height))
 drumbackground = pygame.transform.scale(
     pygame.image.load("graphics/backgrounddrum.png"), (width, height))
+drumbackground2 = pygame.transform.scale(
+    pygame.image.load("graphics/backgrounddrum2.png"), (width, height))
