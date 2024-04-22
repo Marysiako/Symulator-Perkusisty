@@ -5,14 +5,15 @@ import sounds
 import buttons
 import fonts
 import dots
+import songsarr
 
 # ZMIENNE OGOLNE
 size = width, height = (1000, 600)       # Rozmiar ekranu
-gra = 'metallica'    # Zmienna do ustawiania etapu gry
+gra = "songs"    # Zmienna do ustawiania etapu gry
 zegar = pygame.time.Clock()
 czas = 0
 clock = pygame.time.Clock()
-FPS = 60
+FPS = 30
 YLine = 235  # Linia graniczna momentu klikniecia przycisku
 points = 0  # Licznik punktów
 index_snare = 0  # Indeks w tablicy delays
@@ -38,25 +39,7 @@ next_hihat_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejne
 # NEM KICK
 sprites_kick = pygame.sprite.Group()  # Grupa przechowująca wszystkie sprity werbla
 next_kick_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
-delays_snare = [1000, 2500, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000
-                , 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000
-                , 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000
-                , 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000
-                , 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000
-                , 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000
-                , 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000,3000, 3000, 3000, 3000]  # Opóźnienia między wystrzeleniami czyli kiedy w utworze jest dany
-delays_hihat = [1000, 1000, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500
-                , 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500
-                , 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500
-                , 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500
-                , 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500
-                , 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500
-                , 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500]
-delays_kick = [1000,1000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000
-               , 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000
-               , 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000
-               , 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000
-               , 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000, 2500, 500, 3000, 3000]
+
 
 # Events
 while running:
@@ -162,6 +145,9 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'metallica'
+                    pygame.mixer.music.load("sounds/NEM.mp3")
+                    pygame.mixer.music.play()
+
             if not buttons.button_metallica.rect.collidepoint(pygame.mouse.get_pos()):
                     buttons.button_metallica.image = pygame.transform.scale(pygame.image.load('graphics/big_button.png'),(315, 69))
 
@@ -202,6 +188,17 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+                    pygame.mixer.music.stop()
+                    sprites_kick.empty()
+                    sprites_snare.empty()
+                    sprites_hihat.empty()
+                    index_snare = 0  # Indeks w tablicy delays
+                    index_hihat = 0
+                    index_kick = 0
+                    next_kick_sprite_time = pygame.time.get_ticks()
+                    next_snare_sprite_time = pygame.time.get_ticks()
+                    next_hihat_sprite_time = pygame.time.get_ticks()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:  # Sprawdzenie czy naciśnięto przycisk "a"
                     # Sprawdzenie kolizji z YLine
@@ -229,20 +226,20 @@ while running:
         if current_time >= next_snare_sprite_time:
             sprite1 = dots.Sprite_dot("snare")
             sprites_snare.add(sprite1)  # Dodanie nowego sprite'a do grupy
-            next_snare_sprite_time += delays_snare[index_snare]
-            index_snare = (index_snare + 1) % len(delays_snare)  # Przejście do kolejnego opóźnienia z tablicy delays
+            next_snare_sprite_time += songsarr.delays_snare[index_snare]
+            index_snare = (index_snare + 1) % len(songsarr.delays_snare)  # Przejście do kolejnego opóźnienia z tablicy delays
         #HIHAT
         if current_time >= next_hihat_sprite_time:
             sprite1 = dots.Sprite_dot("hihat")
             sprites_hihat.add(sprite1)  # Dodanie nowego sprite'a do grupy
-            next_hihat_sprite_time += delays_hihat[index_hihat]
-            index_hihat = (index_hihat + 1) % len(delays_hihat)  # Przejście do kolejnego opóźnienia z tablicy delays
+            next_hihat_sprite_time += songsarr.delays_hihat[index_hihat]
+            index_hihat = (index_hihat + 1) % len(songsarr.delays_hihat)  # Przejście do kolejnego opóźnienia z tablicy delays
         # KICK
         if current_time >= next_kick_sprite_time:
             sprite1 = dots.Sprite_dot("kick")
             sprites_kick.add(sprite1)  # Dodanie nowego sprite'a do grupy
-            next_kick_sprite_time += delays_kick[index_kick]
-            index_kick = (index_kick + 1) % len(delays_kick)  # Przejście do kolejnego opóźnienia z tablicy delays
+            next_kick_sprite_time += songsarr.delays_kick[index_kick]
+            index_kick = (index_kick + 1) % len(songsarr.delays_kick)  # Przejście do kolejnego opóźnienia z tablicy delays
         # Aktualizacja i rysowanie spritów
 
         screen.blit(graphics.drumbackground, (0, 0))
