@@ -41,7 +41,6 @@ next_hihat_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejne
 sprites_kick = pygame.sprite.Group()  # Grupa przechowująca wszystkie sprity werbla
 next_kick_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
 
-
 # Events
 while running:
     zegar.tick(60)
@@ -273,10 +272,74 @@ while running:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
                     pygame.mixer.music.stop()
+                    sprites_kick.empty()
+                    sprites_snare.empty()
+                    sprites_hihat.empty()
+                    index_snare = 0  # Indeks w tablicy delays
+                    index_hihat = 0
+                    index_kick = 0
+                    next_kick_sprite_timesprite_time = pygame.time.get_ticks()
+                    next_snare_sprite_timesprite_time = pygame.time.get_ticks()
+                    next_hihat_sprite_timesprite_time = pygame.time.get_ticks()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:  # Sprawdzenie czy naciśnięto przycisk "a"
+                    # Sprawdzenie kolizji z YLine
+                    for sprite in sprites_snare:
+                        if sprite.rect.colliderect(pygame.Rect(0, YLine, width, 1)):
+                            points += 1
+                            text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
+                            print("Points:", points)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_j:  # Sprawdzenie czy naciśnięto przycisk "a"
+                    # Sprawdzenie kolizji z YLine
+                    for sprite in sprites_hihat:
+                        if sprite.rect.colliderect(pygame.Rect(0, YLine, width, 1)):
+                            points += 1
+                            text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
+                            print("Points:", points)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:  # Sprawdzenie czy naciśnięto przycisk "a"
+                    # Sprawdzenie kolizji z YLine
+                    for sprite in sprites_kick:
+                        if sprite.rect.colliderect(pygame.Rect(0, YLine, width, 1)):
+                            points += 1
+                            text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
+                            print("Points:", points)
+                # Wystrzelenie nowego sprita po upływie czasu z tablicy delays
+            current_time = pygame.time.get_ticks()
+            # SNARE
+            if current_time >= next_snare_sprite_time:
+                sprite1 = dots.Sprite_dot("snare")
+                sprites_snare.add(sprite1)  # Dodanie nowego sprite'a do grupy
+                next_snare_sprite_time += songsarr.delays_snare_nirvana[index_snare]
+                index_snare = (index_snare + 1) % len(
+                    songsarr.delays_snare_nirvana)  # Przejście do kolejnego opóźnienia z tablicy delays
+            # HIHAT
+            if current_time >= next_hihat_sprite_time:
+                sprite1 = dots.Sprite_dot("hihat")
+                sprites_hihat.add(sprite1)  # Dodanie nowego sprite'a do grupy
+                next_hihat_sprite_time += songsarr.delays_hihat_nirvana[index_hihat]
+                index_hihat = (index_hihat + 1) % len(
+                    songsarr.delays_hihat_nirvana)  # Przejście do kolejnego opóźnienia z tablicy delays
+            # KICK
+            if current_time >= next_kick_sprite_time:
+                sprite1 = dots.Sprite_dot("kick")
+                sprites_kick.add(sprite1)  # Dodanie nowego sprite'a do grupy
+                next_kick_sprite_time += songsarr.delays_kick_nirvana[index_kick]
+                index_kick = (index_kick + 1) % len(
+                    songsarr.delays_kick_nirvana)  # Przejście do kolejnego opóźnienia z tablicy delays
 
         screen.blit(graphics.drumbackground, (0, 0))
+        sprites_snare.update()
+        sprites_snare.draw(screen)
+        sprites_hihat.update()
+        sprites_hihat.draw(screen)
+        sprites_kick.update()
+        sprites_kick.draw(screen)
+        screen.blit(graphics.drumbackground2, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
+        screen.blit(text_points, [800, 10])
         pygame.display.update()
     while gra == 'queen':
         for event in pygame.event.get():
