@@ -9,7 +9,7 @@ import songsarr
 
 # ZMIENNE OGOLNE
 size = width, height = (1000, 600)       # Rozmiar ekranu
-gra = "songs"    # Zmienna do ustawiania etapu gry
+gra = ("menu")    # Zmienna do ustawiania etapu gry
 zegar = pygame.time.Clock()
 czas = 0
 clock = pygame.time.Clock()
@@ -157,6 +157,8 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'nirvana'
+                    pygame.mixer.music.load("sounds/LOF.mp3")
+                    pygame.mixer.music.play()
             if not buttons.button_nirvana.rect.collidepoint(pygame.mouse.get_pos()):
                     buttons.button_nirvana.image = pygame.transform.scale(pygame.image.load('graphics/big_button.png'),(315, 69))
 
@@ -165,6 +167,8 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'queen'
+                    pygame.mixer.music.load("sounds/KYA.mp3")
+                    pygame.mixer.music.play()
             if not buttons.button_keepyourselfalive.rect.collidepoint(pygame.mouse.get_pos()):
                     buttons.button_keepyourselfalive.image = pygame.transform.scale(pygame.image.load('graphics/big_button.png'),(315, 69))
 
@@ -268,6 +272,7 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+                    pygame.mixer.music.stop()
 
         screen.blit(graphics.drumbackground, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
@@ -283,6 +288,7 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+                    pygame.mixer.music.stop()
 
         screen.blit(graphics.drumbackground, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
