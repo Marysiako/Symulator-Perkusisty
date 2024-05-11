@@ -19,14 +19,19 @@ points = 0  # Licznik punktów
 index_snare = 0  # Indeks w tablicy delays
 index_hihat = 0
 index_kick = 0
+with open('highscore.txt', 'r') as highscorefile:
+    highscore = int(highscorefile.read())
 # Teksty
 text_menu = fonts.font_big.render("Menu", False, [0, 0, 0])
 text_points = fonts.font_med.render("Points:"+str(points), False, [0, 0, 0])
+text_points_big = fonts.font_big.render("Points: "+str(points), False, [0, 0, 0])
+text_highscore = fonts.font_big.render("High score: "+str(highscore), False, [0, 0, 0])
 # Inicjalizacja okna
 pygame.init()
 running = True
 screen = pygame.display.set_mode(size)      # Ustawiam rozmiar ekranu
 pygame.display.set_caption('Symulator Perkisisty')  # Tytul
+
 
 # Latajace kropeczki
 # NEM SNARE
@@ -199,6 +204,7 @@ while running:
                     index_snare = 0  # Indeks w tablicy delays
                     index_hihat = 0
                     index_kick = 0
+                    points = 0
                     next_kick_sprite_time = pygame.time.get_ticks()
                     next_snare_sprite_time = pygame.time.get_ticks()
                     next_hihat_sprite_time = pygame.time.get_ticks()
@@ -247,6 +253,9 @@ while running:
             sprites_kick.add(sprite1)  # Dodanie nowego sprite'a do grupy
             next_kick_sprite_time += songsarr.delays_kick[index_kick]
             index_kick = (index_kick + 1) % len(songsarr.delays_kick)  # Przejście do kolejnego opóźnienia z tablicy delays
+
+        if not (pygame.mixer.music.get_busy()):
+            gra = "score"
         # Aktualizacja i rysowanie spritów
 
         screen.blit(graphics.drumbackground, (0, 0))
@@ -256,7 +265,7 @@ while running:
         sprites_hihat.draw(screen)
         sprites_kick.update()
         sprites_kick.draw(screen)
-        screen.blit(graphics.drumbackground2, (0, 0))
+        #screen.blit(graphics.drumbackground2, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
         screen.blit(text_points, [800, 10])
@@ -278,6 +287,7 @@ while running:
                     index_snare = 0  # Indeks w tablicy delays
                     index_hihat = 0
                     index_kick = 0
+                    points = 0
                     next_kick_sprite_timesprite_time = pygame.time.get_ticks()
                     next_snare_sprite_timesprite_time = pygame.time.get_ticks()
                     next_hihat_sprite_timesprite_time = pygame.time.get_ticks()
@@ -328,6 +338,8 @@ while running:
                 next_kick_sprite_time += songsarr.delays_kick_nirvana[index_kick]
                 index_kick = (index_kick + 1) % len(
                     songsarr.delays_kick_nirvana)  # Przejście do kolejnego opóźnienia z tablicy delays
+            if not (pygame.mixer.music.get_busy()):
+                gra = "score"
 
         screen.blit(graphics.drumbackground, (0, 0))
         sprites_snare.update()
@@ -336,7 +348,7 @@ while running:
         sprites_hihat.draw(screen)
         sprites_kick.update()
         sprites_kick.draw(screen)
-        screen.blit(graphics.drumbackground2, (0, 0))
+        #screen.blit(graphics.drumbackground2, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
         screen.blit(text_points, [800, 10])
@@ -351,7 +363,10 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+                    points = 0
                     pygame.mixer.music.stop()
+            if not (pygame.mixer.music.get_busy()):
+                gra = "score"
 
         screen.blit(graphics.drumbackground, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
@@ -383,11 +398,14 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+                    points = 0
 
         # screen.fill(WHITE)
-        screen.blit(graphics.howtoplay_background, (0, 0))
+        screen.blit(graphics.scorebackground, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
+        screen.blit(text_points_big, [350,150])
+        screen.blit(text_highscore, [250, 300])
         pygame.display.update()
 
 
