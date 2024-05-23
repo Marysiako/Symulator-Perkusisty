@@ -204,9 +204,11 @@ while running:
 
                         # Renderowanie tekstu rekordu zawsze po sprawdzeniu i ewentualnym zaktualizowaniu rekordu
                     text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+                    print("highscore:", highscore)
 
                     # Renderowanie tekstu punktów zawsze po sprawdzeniu punktów
                     text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+                    print("Points:", points)
 
                     pygame.mixer.music.stop()
                     sprites_kick.empty()
@@ -217,6 +219,7 @@ while running:
                     index_kick = 0
                     points = 0
                     text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
+                    print("Points:", points)
                     next_kick_sprite_time = pygame.time.get_ticks()
                     next_snare_sprite_time = pygame.time.get_ticks()
                     next_hihat_sprite_time = pygame.time.get_ticks()
@@ -277,9 +280,11 @@ while running:
                 text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
 
             text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+            print("Points:", points)
 
             if points <= highscore:
                 text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+            print("highscore:", highscore)
 
             points = 0
             text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
