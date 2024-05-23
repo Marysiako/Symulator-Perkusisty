@@ -197,6 +197,17 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+                    if points > highscore:
+                        highscore = points
+                        with open('highscore.txt', 'w') as plik:
+                            plik.write(str(highscore))
+
+                        # Renderowanie tekstu rekordu zawsze po sprawdzeniu i ewentualnym zaktualizowaniu rekordu
+                    text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+
+                    # Renderowanie tekstu punktów zawsze po sprawdzeniu punktów
+                    text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+
                     pygame.mixer.music.stop()
                     sprites_kick.empty()
                     sprites_snare.empty()
@@ -205,9 +216,11 @@ while running:
                     index_hihat = 0
                     index_kick = 0
                     points = 0
+                    text_points = fonts.font_med.render("Points:" + str(points), False, [0, 0, 0])
                     next_kick_sprite_time = pygame.time.get_ticks()
                     next_snare_sprite_time = pygame.time.get_ticks()
                     next_hihat_sprite_time = pygame.time.get_ticks()
+
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:  # Sprawdzenie czy naciśnięto przycisk "a"
@@ -254,8 +267,22 @@ while running:
             next_kick_sprite_time += songsarr.delays_kick[index_kick]
             index_kick = (index_kick + 1) % len(songsarr.delays_kick)  # Przejście do kolejnego opóźnienia z tablicy delays
 
+        #kiedy muzyka przestaje grac
         if not (pygame.mixer.music.get_busy()):
             gra = "score"
+            if points > highscore:
+                highscore = points
+                with open('highscore.txt', 'w') as plik:
+                    plik.write(str(highscore))
+                text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+
+            text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+
+            if points <= highscore:
+                text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+
+            points = 0
+            text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
         # Aktualizacja i rysowanie spritów
 
         screen.blit(graphics.drumbackground, (0, 0))
