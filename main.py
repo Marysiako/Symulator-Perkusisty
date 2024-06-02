@@ -223,7 +223,23 @@ while running:
                     next_kick_sprite_time = pygame.time.get_ticks()
                     next_snare_sprite_time = pygame.time.get_ticks()
                     next_hihat_sprite_time = pygame.time.get_ticks()
-
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                pygame.mixer.Sound.play(sounds.snare)
+            if keys[pygame.K_w]:
+                pygame.mixer.Sound.play(sounds.tom1)
+            if keys[pygame.K_e]:
+                pygame.mixer.Sound.play(sounds.tom2)
+            if keys[pygame.K_d]:
+                pygame.mixer.Sound.play(sounds.floortom)
+            if keys[pygame.K_s]:
+                pygame.mixer.Sound.play(sounds.kick)
+            if keys[pygame.K_j]:
+                pygame.mixer.Sound.play(sounds.hihat)
+            if keys[pygame.K_i]:
+                pygame.mixer.Sound.play(sounds.crash)
+            if keys[pygame.K_l]:
+                pygame.mixer.Sound.play(sounds.ride)
 
 
             if event.type == pygame.KEYDOWN:
@@ -309,6 +325,23 @@ while running:
             if event.type == QUIT:
                 running = False
                 pygame.quit()
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                pygame.mixer.Sound.play(sounds.snare)
+            if keys[pygame.K_w]:
+                pygame.mixer.Sound.play(sounds.tom1)
+            if keys[pygame.K_e]:
+                pygame.mixer.Sound.play(sounds.tom2)
+            if keys[pygame.K_d]:
+                pygame.mixer.Sound.play(sounds.floortom)
+            if keys[pygame.K_s]:
+                pygame.mixer.Sound.play(sounds.kick)
+            if keys[pygame.K_j]:
+                pygame.mixer.Sound.play(sounds.hihat)
+            if keys[pygame.K_i]:
+                pygame.mixer.Sound.play(sounds.crash)
+            if keys[pygame.K_l]:
+                pygame.mixer.Sound.play(sounds.ride)
             mouse_buttons = pygame.mouse.get_pressed()
             if buttons.button_back.rect.collidepoint(pygame.mouse.get_pos()):
                 if mouse_buttons[0]:
@@ -409,6 +442,23 @@ while running:
             if event.type == QUIT:
                 running = False
                 pygame.quit()
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                pygame.mixer.Sound.play(sounds.snare)
+            if keys[pygame.K_w]:
+                pygame.mixer.Sound.play(sounds.tom1)
+            if keys[pygame.K_e]:
+                pygame.mixer.Sound.play(sounds.tom2)
+            if keys[pygame.K_d]:
+                pygame.mixer.Sound.play(sounds.floortom)
+            if keys[pygame.K_s]:
+                pygame.mixer.Sound.play(sounds.kick)
+            if keys[pygame.K_j]:
+                pygame.mixer.Sound.play(sounds.hihat)
+            if keys[pygame.K_i]:
+                pygame.mixer.Sound.play(sounds.crash)
+            if keys[pygame.K_l]:
+                pygame.mixer.Sound.play(sounds.ride)
             mouse_buttons = pygame.mouse.get_pressed()
             if buttons.button_back.rect.collidepoint(pygame.mouse.get_pos()):
                 if mouse_buttons[0]:
