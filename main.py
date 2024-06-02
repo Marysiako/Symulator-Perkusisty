@@ -32,19 +32,18 @@ running = True
 screen = pygame.display.set_mode(size)      # Ustawiam rozmiar ekranu
 pygame.display.set_caption('Symulator Perkisisty')  # Tytul
 
-
-# Latajace kropeczki
-# NEM SNARE
+#Zmienne dla sprajtow lecących kropek
 sprites_snare = pygame.sprite.Group()  # Grupa przechowująca wszystkie sprity werbla
-next_snare_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
-
-# NEM HIHAT
+next_snare_sprite_time = 0
 sprites_hihat = pygame.sprite.Group()  # Grupa przechowująca wszystkie sprity werbla
-next_hihat_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
-
-# NEM KICK
+next_hihat_sprite_time = 0
 sprites_kick = pygame.sprite.Group()  # Grupa przechowująca wszystkie sprity werbla
-next_kick_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
+next_kick_sprite_time = 0
+
+def InitializeDots():
+    next_snare_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
+    next_hihat_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
+    next_kick_sprite_time = pygame.time.get_ticks()  # Czas do wystrzelenia kolejnego sprita
 
 # Events
 while running:
@@ -85,6 +84,14 @@ while running:
             if not buttons.button_howtoplay.rect.collidepoint(pygame.mouse.get_pos()):
                 buttons.button_howtoplay.image = pygame.transform.scale(pygame.image.load('graphics/big_button.png'), (315, 69))
 
+            if buttons.button_highscore.rect.collidepoint(pygame.mouse.get_pos()):
+                buttons.button_highscore.image = pygame.transform.scale(pygame.image.load('graphics/big_button_dark.png'), (315, 69))
+                if mouse_buttons[0]:
+                    pygame.mixer.Sound.play(sounds.click_sound)
+                    gra = 'highscore'
+            if not buttons.button_highscore.rect.collidepoint(pygame.mouse.get_pos()):
+                buttons.button_highscore.image = pygame.transform.scale(pygame.image.load('graphics/big_button.png'), (315, 69))
+
             if buttons.button_exit.rect.collidepoint(pygame.mouse.get_pos()):
                 buttons.button_exit.image = pygame.transform.scale(pygame.image.load('graphics/big_button_dark.png'), (315, 69))
                 if mouse_buttons[0]:
@@ -97,9 +104,10 @@ while running:
         screen.blit(graphics.menu, (0, 0))
         screen.blit(text_menu, [200, 120])
         buttons.grupa_przyciskow.draw(screen)
-        screen.blit(buttons.text_single, [670, 170])
-        screen.blit(buttons.text_songs, [660, 270])
-        screen.blit(buttons.text_howtopplay, [620, 370])
+        screen.blit(buttons.text_single, [670, 70])
+        screen.blit(buttons.text_songs, [660, 170])
+        screen.blit(buttons.text_howtopplay, [620, 270])
+        screen.blit(buttons.text_highscore, [640, 370])
         screen.blit(buttons.text_exit, [670, 470])
         pygame.display.update()
     while gra == 'solo':
@@ -150,6 +158,7 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'metallica'
+                    InitializeDots()
                     pygame.mixer.music.load("sounds/NEM.mp3")
                     pygame.mixer.music.play()
 
@@ -161,6 +170,7 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'nirvana'
+                    InitializeDots()
                     pygame.mixer.music.load("sounds/LOF.mp3")
                     pygame.mixer.music.play()
             if not buttons.button_nirvana.rect.collidepoint(pygame.mouse.get_pos()):
@@ -171,6 +181,7 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'queen'
+                    InitializeDots()
                     pygame.mixer.music.load("sounds/KYA.mp3")
                     pygame.mixer.music.play()
             if not buttons.button_keepyourselfalive.rect.collidepoint(pygame.mouse.get_pos()):
@@ -212,6 +223,7 @@ while running:
                     next_kick_sprite_time = pygame.time.get_ticks()
                     next_snare_sprite_time = pygame.time.get_ticks()
                     next_hihat_sprite_time = pygame.time.get_ticks()
+
 
 
             if event.type == pygame.KEYDOWN:
@@ -260,23 +272,24 @@ while running:
             index_kick = (index_kick + 1) % len(songsarr.delays_kick)  # Przejście do kolejnego opóźnienia z tablicy delays
 
         #kiedy muzyka przestaje grac
-        if not (pygame.mixer.music.get_busy()):
-            gra = "score"
-            if points > highscore:
-                highscore = points
-                with open('highscore.txt', 'w') as plik:
-                    plik.write(str(highscore))
-                text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+        if not (gra=="menu"):
+            if not (pygame.mixer.music.get_busy()):
+                gra = "score"
+                if points > highscore:
+                    highscore = points
+                    with open('highscore.txt', 'w') as plik:
+                        plik.write(str(highscore))
+                    text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
 
-            text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
-            print("Points:", points)
+                text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+                print("Points:", points)
 
-            if points <= highscore:
-                text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
-            print("highscore:", highscore)
+                if points <= highscore:
+                    text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+                print("highscore:", highscore)
 
-            points = 0
-            text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
+                points = 0
+                text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
         # Aktualizacja i rysowanie spritów
 
         screen.blit(graphics.drumbackground, (0, 0))
@@ -359,8 +372,25 @@ while running:
                 next_kick_sprite_time += songsarr.delays_kick_nirvana[index_kick]
                 index_kick = (index_kick + 1) % len(
                     songsarr.delays_kick_nirvana)  # Przejście do kolejnego opóźnienia z tablicy delays
-            if not (pygame.mixer.music.get_busy()):
-                gra = "score"
+                # kiedy muzyka przestaje grac
+                if not (gra == "menu"):
+                    if not (pygame.mixer.music.get_busy()):
+                        gra = "score"
+                        if points > highscore:
+                            highscore = points
+                            with open('highscore.txt', 'w') as plik:
+                                plik.write(str(highscore))
+                            text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+
+                        text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+                        print("Points:", points)
+
+                        if points <= highscore:
+                            text_highscore = fonts.font_big.render("High score: " + str(highscore), False, [0, 0, 0])
+                        print("highscore:", highscore)
+
+                        points = 0
+                        text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
 
         screen.blit(graphics.drumbackground, (0, 0))
         sprites_snare.update()
@@ -386,8 +416,27 @@ while running:
                     gra = 'menu'
                     points = 0
                     pygame.mixer.music.stop()
-            if not (pygame.mixer.music.get_busy()):
-                gra = "score"
+                    # kiedy muzyka przestaje grac
+                    if not (gra == "menu"):
+                        if not (pygame.mixer.music.get_busy()):
+                            gra = "score"
+                            if points > highscore:
+                                highscore = points
+                                with open('highscore.txt', 'w') as plik:
+                                    plik.write(str(highscore))
+                                text_highscore = fonts.font_big.render("High score: " + str(highscore), False,
+                                                                       [0, 0, 0])
+
+                            text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+                            print("Points:", points)
+
+                            if points <= highscore:
+                                text_highscore = fonts.font_big.render("High score: " + str(highscore), False,
+                                                                       [0, 0, 0])
+                            print("highscore:", highscore)
+
+                            points = 0
+                            text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
 
         screen.blit(graphics.drumbackground, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
@@ -408,6 +457,24 @@ while running:
         screen.blit(graphics.howtoplay_background, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
+        pygame.display.update()
+
+    while gra == 'highscore':
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                running = False
+                pygame.quit()
+            mouse_buttons = pygame.mouse.get_pressed()
+            if buttons.button_back.rect.collidepoint(pygame.mouse.get_pos()):
+                if mouse_buttons[0]:
+                    pygame.mixer.Sound.play(sounds.click_sound)
+                    gra = 'menu'
+
+        # screen.fill(WHITE)
+        screen.blit(graphics.menu, (0, 0))
+        buttons.grupa_przyciskow2.draw(screen)
+        screen.blit(buttons.text_back, [910, 550])
+        screen.blit(text_highscore, [260, 120])
         pygame.display.update()
     while gra == 'score':
         for event in pygame.event.get():

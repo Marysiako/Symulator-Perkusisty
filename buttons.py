@@ -25,14 +25,21 @@ class Przyciski(pygame.sprite.Sprite):
 # PRZYCISKI
 grupa_przyciskow = pygame.sprite.Group()
 text_single = fonts.font_med.render('Solo', False, [0, 0, 0])
-button_single = Przyciski('graphics/big_button.png', 550, 150, 315, 69)
+button_single = Przyciski('graphics/big_button.png', 550, 50, 315, 69)
 grupa_przyciskow.add(button_single)
+
 text_songs = fonts.font_med.render('Songs', False, [0, 0, 0])
-button_songs = Przyciski('graphics/big_button.png', 550, 250, 315, 69)
+button_songs = Przyciski('graphics/big_button.png', 550, 150, 315, 69)
 grupa_przyciskow.add(button_songs)
+
 text_howtopplay = fonts.font_med.render('How to play?', False, [0, 0, 0])
-button_howtoplay = Przyciski('graphics/big_button.png', 550, 350, 315, 69)
+button_howtoplay = Przyciski('graphics/big_button.png', 550, 250, 315, 69)
 grupa_przyciskow.add(button_howtoplay)
+
+text_highscore = fonts.font_med.render('Highscore', False, [0, 0, 0])
+button_highscore = Przyciski('graphics/big_button.png', 550, 350, 315, 69)
+grupa_przyciskow.add(button_highscore)
+
 text_exit = fonts.font_med.render('Exit', False, [0, 0, 0])
 button_exit = Przyciski('graphics/big_button.png', 550, 450, 315, 69)
 grupa_przyciskow.add(button_exit)
