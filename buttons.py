@@ -44,10 +44,21 @@ text_exit = fonts.font_med.render('Exit', False, [0, 0, 0])
 button_exit = Przyciski('graphics/big_button.png', 550, 450, 315, 69)
 grupa_przyciskow.add(button_exit)
 
+#___________________________________________________________
+
 grupa_przyciskow2 = pygame.sprite.Group()
 text_back = fonts.font_small.render('Back', False, [0, 0, 0])
 button_back = Przyciski('graphics/small_button.png', 900, 550, 60, 20)
 grupa_przyciskow2.add(button_back)
+
+#___________________________________________________________
+
+grupa_przyciskow_resetHS = pygame.sprite.Group()
+text_resetHS = fonts.font_med.render('Reset High Score', False, [0, 0, 0])
+button_resetHS = Przyciski('graphics/big_button.png', 550, 300, 315, 69)
+grupa_przyciskow_resetHS.add(button_resetHS)
+
+#___________________________________________________________
 
 grupa_przyciskow_songs = pygame.sprite.Group()
 text_metallica = fonts.font.render('Nothing Else Matters (EASY)', False, [0, 0, 0])

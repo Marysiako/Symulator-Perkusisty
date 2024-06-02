@@ -416,27 +416,26 @@ while running:
                     gra = 'menu'
                     points = 0
                     pygame.mixer.music.stop()
-                    # kiedy muzyka przestaje grac
-                    if not (gra == "menu"):
-                        if not (pygame.mixer.music.get_busy()):
-                            gra = "score"
-                            if points > highscore:
-                                highscore = points
-                                with open('highscore.txt', 'w') as plik:
-                                    plik.write(str(highscore))
-                                text_highscore = fonts.font_big.render("High score: " + str(highscore), False,
-                                                                       [0, 0, 0])
 
-                            text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
-                            print("Points:", points)
+                # kiedy muzyka przestaje grac
+                if not (gra == "menu"):
+                    if not (pygame.mixer.music.get_busy()):
+                        gra = "score"
+                        if points > highscore:
+                            highscore = points
+                            with open('highscore.txt', 'w') as plik:
+                                plik.write(str(highscore))
+                            text_highscore = fonts.font_big.render("High score: " + str(highscore), False,[0, 0, 0])
 
-                            if points <= highscore:
-                                text_highscore = fonts.font_big.render("High score: " + str(highscore), False,
-                                                                       [0, 0, 0])
-                            print("highscore:", highscore)
+                        text_points_big = fonts.font_big.render("Points: " + str(points), False, [0, 0, 0])
+                        print("Points:", points)
 
-                            points = 0
-                            text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
+                        if points <= highscore:
+                            text_highscore = fonts.font_big.render("High score: " + str(highscore), False,[0, 0, 0])
+                        print("highscore:", highscore)
+
+                        points = 0
+                        text_points = fonts.font_med.render("Points: " + str(points), False, [0, 0, 0])
 
         screen.blit(graphics.drumbackground, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
@@ -458,7 +457,6 @@ while running:
         buttons.grupa_przyciskow2.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
         pygame.display.update()
-
     while gra == 'highscore':
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -469,11 +467,20 @@ while running:
                 if mouse_buttons[0]:
                     pygame.mixer.Sound.play(sounds.click_sound)
                     gra = 'menu'
+            if buttons.button_resetHS.rect.collidepoint(pygame.mouse.get_pos()):
+                if mouse_buttons[0]:
+                    with open('highscore.txt', 'w') as plik:
+                        plik.write(str(0))
+                    highscore = 0
+                    text_highscore = fonts.font_big.render("High score: " + str(highscore), False,[0, 0, 0])
+
 
         # screen.fill(WHITE)
         screen.blit(graphics.menu, (0, 0))
         buttons.grupa_przyciskow2.draw(screen)
+        buttons.grupa_przyciskow_resetHS.draw(screen)
         screen.blit(buttons.text_back, [910, 550])
+        screen.blit(buttons.text_resetHS, [590, 320])
         screen.blit(text_highscore, [260, 120])
         pygame.display.update()
     while gra == 'score':
@@ -495,6 +502,5 @@ while running:
         screen.blit(text_points_big, [350, 150])
         screen.blit(text_highscore, [250, 300])
         pygame.display.update()
-
 
 pygame.quit()
